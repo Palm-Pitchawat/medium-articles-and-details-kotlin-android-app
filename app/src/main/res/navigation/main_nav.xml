@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/home_screen">
+
+    <fragment
+        android:id="@+id/home_screen"
+        android:name="com.playground.app.medium_articles_app.presentation.HomeScreen"
+        android:label="home_screen"
+        tools:layout="@layout/home_screen">
+        <argument
+            android:name="article"
+            app:argType="com.playground.app.medium_articles_app.domain.model.Article" />
+        <action
+            android:id="@+id/action_home_screen_to_article_detail_screen"
+            app:destination="@id/article_detail_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/article_detail_screen"
+        android:name="com.playground.app.medium_articles_app.presentation.ArticleDetailScreen"
+        android:label="article_detail_screen"
+        tools:layout="@layout/article_detail_screen" />
+</navigation>

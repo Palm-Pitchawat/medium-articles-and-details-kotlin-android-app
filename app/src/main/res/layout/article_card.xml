@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="article"
+            type="com.playground.app.medium_articles_app.domain.model.Article" />
+
+        <variable
+            name="listener"
+            type="com.playground.app.medium_articles_app.presentation.ArticleListener" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/article_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardElevation="1.5dp"
+        app:cardBackgroundColor="@color/white"
+        android:onClick="@{() -> listener.onArticleClicked(article)}">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/article_image"
+                android:layout_width="160dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                app:loadImage="@{article.image}"
+                tools:src="@drawable/ic_launcher_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/article_title"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/article_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:text="@{article.title}"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="16dp"
+                app:layout_constraintStart_toEndOf="@id/article_image"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/article_content"
+                app:layout_constraintVertical_bias="0"
+                tools:text="title title title"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/article_content"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                app:setArticleContent="@{article.content}"
+                app:layout_constraintStart_toStartOf="@id/article_title"
+                app:layout_constraintTop_toBottomOf="@id/article_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="sdfsfsdfsdfsdfsdfsdfsdfdfdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>
