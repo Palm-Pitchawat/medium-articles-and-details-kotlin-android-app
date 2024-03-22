@@ -1,15 +1,14 @@
 package com.playground.app.medium_articles_app.domain.usecase
 
-import com.playground.app.medium_articles_app.domain.model.ArticleChannel
 import com.playground.app.medium_articles_app.domain.repository.ArticleRepository
 
-class GetArticlesUseCase(
+class GetArticleChannelUseCase(
     private val articleRepository: ArticleRepository
 ) {
-    suspend operator fun invoke(): UseCaseResponse<ArticleChannel> {
+    suspend operator fun invoke(): UseCaseResponse<Nothing> {
         return try {
-            val articleChannel = articleRepository.getArticles()
-            UseCaseResponse.Success(articleChannel)
+            articleRepository.getArticleChannel()
+            UseCaseResponse.Success()
         } catch (ex: Exception) {
             UseCaseResponse.Error(ex)
         }

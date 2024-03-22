@@ -8,6 +8,10 @@
             type="com.playground.app.medium_articles_app.domain.model.Article" />
 
         <variable
+            name="disable"
+            type="Boolean" />
+
+        <variable
             name="listener"
             type="com.playground.app.medium_articles_app.presentation.ArticleListener" />
     </data>
@@ -19,11 +23,14 @@
         android:layout_marginBottom="16dp"
         app:cardElevation="1.5dp"
         app:cardBackgroundColor="@color/white"
+        app:setDisable="@{disable}"
         android:onClick="@{() -> listener.onArticleClicked(article)}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="false"
+            android:focusable="false"
             android:padding="16dp">
 
             <androidx.appcompat.widget.AppCompatImageView

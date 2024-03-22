@@ -6,7 +6,6 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.fleeksoft.ksoup.Ksoup
 import com.playground.app.medium_articles_app.domain.model.Article
 
 @BindingAdapter("loadImage")
@@ -18,13 +17,25 @@ fun loadImage(imageView: ImageView, imageUrl: String?) {
 @BindingAdapter("submitArticleList")
 fun submitArticleList(recyclerView: RecyclerView, articleList: List<Article>?) {
     val adapter = recyclerView.adapter as ArticleAdapter
-    adapter.submitList(articleList)
-}
-@BindingAdapter("setArticleContent")
-fun setArticleContent(textView: TextView, htmlText: String?) {
-    if (htmlText != null) {
-        textView.text = Ksoup.parse(htmlText).text()
+    if (!articleList.isNullOrEmpty()) {
+        adapter.submitList(articleList)
     }
+}
+
+@BindingAdapter("setDisableAllItem")
+fun setDisableAllItem(recyclerView: RecyclerView, loading: Boolean) {
+    val adapter = recyclerView.adapter as ArticleAdapter
+    adapter.disableAllItem(loading)
+}
+
+@BindingAdapter("setDisable")
+fun setDisable(view: View, disable: Boolean) {
+    view.isEnabled = !disable
+}
+
+@BindingAdapter("setArticleContent")
+fun setArticleContent(textView: TextView, content: String?) {
+    textView.text = content
 }
 @BindingAdapter("setArticleChannelTitle")
 fun setArticleChannelTitle(textView: TextView, articleChannelTitle: String?) {
@@ -34,5 +45,13 @@ fun setArticleChannelTitle(textView: TextView, articleChannelTitle: String?) {
     } else {
         textView.visibility = View.GONE
         textView.text = null
+    }
+}
+@BindingAdapter("setProgressBarVisibility")
+fun setProgressBarVisibility(view: View, loading: Boolean) {
+    if (loading) {
+        view.visibility = View.VISIBLE
+    } else {
+        view.visibility = View.GONE
     }
 }

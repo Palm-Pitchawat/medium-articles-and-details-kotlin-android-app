@@ -12,6 +12,8 @@ class ArticleAdapter(
     private val articleListener: ArticleListener
 ): ListAdapter<Article, ArticleAdapter.ArticleViewHolder>(PictureDiffCallBack()) {
 
+    private var disableAllItem = false
+
     inner class ArticleViewHolder(val item: ArticleCardBinding) : RecyclerView.ViewHolder(item.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleAdapter.ArticleViewHolder {
@@ -22,6 +24,7 @@ class ArticleAdapter(
 
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         holder.item.apply {
+            disable = disableAllItem
             article = getItem(position)
             listener = articleListener
             executePendingBindings()
@@ -35,6 +38,11 @@ class ArticleAdapter(
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
         }
+    }
+
+    fun disableAllItem(flag: Boolean) {
+        disableAllItem = flag
+        notifyItemRangeChanged(0, itemCount)
     }
 }
 

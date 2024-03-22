@@ -2,8 +2,8 @@ package com.playground.app.medium_articles_app.data.source.remote
 
 import com.fleeksoft.ksoup.Ksoup
 import com.fleeksoft.ksoup.nodes.Document
-import com.playground.app.medium_articles_app.domain.model.Article
-import com.playground.app.medium_articles_app.domain.model.ArticleChannel
+import com.playground.app.medium_articles_app.data.source.remote.model.ArticleChannelRss
+import com.playground.app.medium_articles_app.data.source.remote.model.ArticleRss
 import com.prof18.rssparser.RssParser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ class ArticleApiImpl(
     private val rssParser: RssParser,
     private val coroutineDispatcher: CoroutineDispatcher
 ) : ArticleApi {
-    override suspend fun getArticleChannel(): ArticleChannel {
+    override suspend fun getArticleChannel(): ArticleChannelRss {
         return withContext(coroutineDispatcher) {
             val rssChannel = rssParser.getRssChannel("https://medium.com/feed/@primoapp")
             val articleList = rssChannel.items.mapNotNull { rssItem ->
@@ -22,7 +22,7 @@ class ArticleApiImpl(
                     val imageReference = extractImageReferenceFromHtmlDocument(htmlDocument)
                     removeUnwantedTag(htmlDocument)
 
-                    Article(
+                    ArticleRss(
                         title = rssItem.title ?: "",
                         image = image,
                         imageReference = imageReference,
@@ -31,8 +31,8 @@ class ArticleApiImpl(
                     )
                 }
             }
-            ArticleChannel(
-                channelTitle = rssChannel.title,
+            ArticleChannelRss(
+                channelTitle = rssChannel.title!!,
                 articles = articleList
             )
         }
