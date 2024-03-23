@@ -47,10 +47,10 @@ class HomeViewModel(
     val loading = _loading.asStateFlow()
 
     init {
-        getArticles()
+        getArticleChannel()
     }
 
-    private fun getArticles() {
+    private fun getArticleChannel() {
         _loading.value = true
         viewModelScope.launch {
             getArticleChannelUseCase().also {

@@ -8,6 +8,7 @@ import com.playground.app.medium_articles_app.data.source.remote.model.asArticle
 import com.playground.app.medium_articles_app.domain.model.ArticleChannel
 import com.playground.app.medium_articles_app.domain.repository.ArticleRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class ArticleRepositoryImpl(
@@ -16,7 +17,7 @@ class ArticleRepositoryImpl(
 ): ArticleRepository {
 
     override fun getArticleChannelFlow(): Flow<ArticleChannel?> {
-        return articleChannelDao.getArticleChannel().map {
+        return articleChannelDao.getArticleChannel().distinctUntilChanged().map {
             it?.asArticleChannel()
         }
     }

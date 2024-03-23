@@ -8,6 +8,7 @@ import com.playground.app.medium_articles_app.data.source.remote.ArticleApiImpl
 import com.playground.app.medium_articles_app.domain.repository.ArticleRepository
 import com.playground.app.medium_articles_app.domain.usecase.GetArticleChannelFlowUseCase
 import com.playground.app.medium_articles_app.domain.usecase.GetArticleChannelUseCase
+import com.playground.app.medium_articles_app.presentation.ArticleDetailViewModel
 import com.playground.app.medium_articles_app.presentation.HomeViewModel
 import com.prof18.rssparser.RssParserBuilder
 import kotlinx.coroutines.Dispatchers
@@ -50,4 +51,6 @@ val appModule = module {
     }
 
     viewModel { HomeViewModel(get(), get()) }
+
+    viewModel { ArticleDetailViewModel() }
 }

@@ -1,5 +1,6 @@
 package com.playground.app.medium_articles_app.presentation
 
+import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -33,10 +34,27 @@ fun setDisable(view: View, disable: Boolean) {
     view.isEnabled = !disable
 }
 
+@BindingAdapter("setImageReference")
+fun setImageReference(textView: TextView, imageReference: String?) {
+    if (imageReference.isNullOrEmpty()) {
+        textView.visibility = View.GONE
+        textView.text = null
+    } else {
+        textView.text = imageReference
+        textView.visibility = View.VISIBLE
+    }
+}
+
 @BindingAdapter("setArticleContent")
 fun setArticleContent(textView: TextView, content: String?) {
     textView.text = content
 }
+
+@BindingAdapter("setArticleHtmlContent")
+fun setArticleHtmlContent(textView: TextView, htmlContent: String?) {
+    textView.text = Html.fromHtml(htmlContent, Html.FROM_HTML_MODE_LEGACY)
+}
+
 @BindingAdapter("setArticleChannelTitle")
 fun setArticleChannelTitle(textView: TextView, articleChannelTitle: String?) {
     if (articleChannelTitle != null) {
@@ -47,6 +65,7 @@ fun setArticleChannelTitle(textView: TextView, articleChannelTitle: String?) {
         textView.text = null
     }
 }
+
 @BindingAdapter("setProgressBarVisibility")
 fun setProgressBarVisibility(view: View, loading: Boolean) {
     if (loading) {

@@ -10,9 +10,6 @@
         android:name="com.playground.app.medium_articles_app.presentation.HomeScreen"
         android:label="home_screen"
         tools:layout="@layout/home_screen">
-        <argument
-            android:name="article"
-            app:argType="com.playground.app.medium_articles_app.domain.model.Article" />
         <action
             android:id="@+id/action_home_screen_to_article_detail_screen"
             app:destination="@id/article_detail_screen" />
@@ -22,5 +19,9 @@
         android:id="@+id/article_detail_screen"
         android:name="com.playground.app.medium_articles_app.presentation.ArticleDetailScreen"
         android:label="article_detail_screen"
-        tools:layout="@layout/article_detail_screen" />
+        tools:layout="@layout/article_detail_screen" >
+        <argument
+            android:name="article"
+            app:argType="com.playground.app.medium_articles_app.domain.model.Article" />
+    </fragment>
 </navigation>

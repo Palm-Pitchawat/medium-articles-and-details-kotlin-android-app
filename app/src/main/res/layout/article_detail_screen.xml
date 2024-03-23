@@ -3,10 +3,62 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.playground.app.medium_articles_app.presentation.ArticleDetailScreen">
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.playground.app.medium_articles_app.presentation.ArticleDetailViewModel" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="16dp">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/article_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:text="@{viewModel.article.title}"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="article title"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/article_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:loadImage="@{viewModel.article.image}"
+                app:layout_constraintTop_toBottomOf="@id/article_title"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/image_reference"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:setImageReference="@{viewModel.article.imageReference}"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/article_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="image reference"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:setArticleHtmlContent="@{viewModel.article.htmlContent}"
+                app:layout_constraintTop_toBottomOf="@id/image_reference" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>
