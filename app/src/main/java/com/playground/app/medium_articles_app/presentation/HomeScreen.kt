@@ -1,51 +1,143 @@
 package com.playground.app.medium_articles_app.presentation
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.playground.app.medium_articles_app.databinding.HomeScreenBinding
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.playground.app.medium_articles_app.domain.model.Article
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.compose.koinViewModel
 
-class HomeScreen : Fragment(), ArticleListener {
+@Composable
+fun HomeScreen(
+    homeViewModel: HomeViewModel = koinViewModel()
+) {
 
-    private lateinit var binding: HomeScreenBinding
-    private lateinit var navController: NavController
-    private val homeViewModel: HomeViewModel by viewModel()
+    val articleChannelTitle = homeViewModel.articleChannelTitle.collectAsStateWithLifecycle().value
+    val articleList = homeViewModel.articleList.collectAsStateWithLifecycle().value
 
-    private lateinit var articleAdapter: ArticleAdapter
+    HomeContent(
+        articleChannelTitle = articleChannelTitle,
+        articleList = articleList
+    )
+}
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = HomeScreenBinding.inflate(inflater, container, false).apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = homeViewModel
-        }
-        navController = findNavController()
-        articleAdapter = ArticleAdapter(this)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.articlesDisplayList.apply {
-            adapter = articleAdapter
-            layoutManager = LinearLayoutManager(
-                requireContext(),
-                LinearLayoutManager.VERTICAL,
-                false
+@Composable
+fun HomeContent(
+    articleChannelTitle: String?,
+    articleList: List<Article>?
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
+        if (articleChannelTitle != null) {
+            Text(
+                text = articleChannelTitle,
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
             )
         }
+        ArticleCardList(articleList)
     }
+}
 
-    override fun onArticleClicked(article: Article) {
-        navController.navigate(
-            HomeScreenDirections.actionHomeScreenToArticleDetailScreen(article)
-        )
+@Composable
+fun ArticleCardList(articleList: List<Article>?) {
+    if (articleList != null) {
+        LazyColumn {
+            itemsIndexed(articleList) { index, item ->
+                ArticleCard(
+                    article = item,
+                    itemLastIndex = articleList.lastIndex,
+                    itemCurrentIndex = index
+                )
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun ArticleCard(
+    article: Article,
+    itemLastIndex: Int,
+    itemCurrentIndex: Int
+) {
+    Column {
+        Card(
+            shape = RoundedCornerShape(1.5.dp),
+            elevation = CardDefaults
+                .cardElevation(
+                    defaultElevation = 1.5.dp
+                ),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondary
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            ) {
+                GlideImage(
+                    model = article.image,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(
+                        width = 160.dp,
+                        height = 100.dp
+                    )
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        text = article.title,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                    Text(
+                        text = article.content,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 8.dp)
+                    )
+                }
+            }
+        }
+        if (itemLastIndex != itemCurrentIndex) {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
     }
 }

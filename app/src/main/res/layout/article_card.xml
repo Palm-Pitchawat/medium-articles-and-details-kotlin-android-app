@@ -38,12 +38,12 @@
                 android:layout_width="160dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
-                app:loadImage="@{article.image}"
-                tools:src="@drawable/ic_launcher_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/article_title"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/article_title"/>
+                app:loadImage="@{article.image}"
+                tools:src="@drawable/ic_launcher_background" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/article_title"

@@ -1,15 +1,36 @@
 package com.playground.app.medium_articles_app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.playground.app.medium_articles_app.databinding.MainActivityBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Surface
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.playground.app.medium_articles_app.presentation.HomeScreen
+import com.playground.app.medium_articles_app.presentation.theme.MyApplicationTheme
 
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: MainActivityBinding
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MainActivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContent {
+            MyApplicationTheme {
+                Surface {
+
+                    val navController = rememberNavController()
+
+                    NavHost(
+                        navController = navController,
+                        startDestination = "home",
+                    ) {
+                        composable(route = "home") {
+                            HomeScreen()
+                        }
+                        composable(route = "articleDetail") {
+                        }
+                    }
+                }
+            }
+        }
     }
 }
